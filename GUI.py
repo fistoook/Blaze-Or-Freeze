@@ -61,6 +61,8 @@ class BlazeOrFreezeGUI:
             current_text = self.name_label["text"]
             self.name_label.after(3000, lambda: self._config_label(self.name_label, current_text))
             self.name_label.config(text="Invalid Name! enter a valid name:")
+        else:
+            self.name_label.config(text=F"Welcome {name}", fg="red", font=self.Fonts[0])
 
     def _config_label(self, label, text):
         label.config(text=text)
