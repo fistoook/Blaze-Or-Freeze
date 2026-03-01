@@ -5,7 +5,7 @@ from GameLogic import BlazeOrFreeze as BOF
 class BlazeOrFreezeGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.GameLogic = BOF()
+        self.GameLogic = BOF
         
         self.Fonts = [Font(family="Arial", size=16, weight="bold", slant="italic")]
         self.Font_colors = ["red", "black", "blue"]
@@ -57,13 +57,13 @@ class BlazeOrFreezeGUI:
     def _send_name(self):
         name = self.name_input.get()
         self.name_input.delete(0, tk.END)
-        if not name:
-            current_text = self.name_label["text"]
-            self.name_label.after(3000, lambda: self._config_label(self.name_label, current_text))
-            self.name_label.config(text="Invalid Name! enter a valid name:")
-        else:
-            self.name_label.config(text=F"Welcome {name}", fg="red", font=self.Fonts[0])
-
+        game = self.GameLogic(name, self.root, self.Fonts)
+        #if not name:
+        #    current_text = self.name_label["text"]
+        #    self.name_label.after(3000, lambda: self._config_label(self.name_label, current_text))
+        #    self.name_label.config(text="Invalid Name! enter a valid name:")
+        #else:
+        #    self.name_label.config(text=F"Welcome {name}", fg="red", font=self.Fonts[0])
     def _config_label(self, label, text):
         label.config(text=text)
         
