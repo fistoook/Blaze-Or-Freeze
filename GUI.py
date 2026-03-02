@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.font import Font
 from GameLogic import HotNCold
+import random
 
 TITLE = "HOT&COLD"
 
@@ -37,8 +38,8 @@ class HotNColdApp(tk.Tk):
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
 
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
 
         self.geometry(f"{int(width)}x{int(height)}+{x}+{y}") 
 
@@ -68,7 +69,7 @@ class StartScreen(tk.Frame):
         self.play_button = tk.Button(self, command=self._play_game)
 
     def _layout_screen_widgets(self):
-        self.title_grid.pack()
+        #self.title_grid.pack()
         self.name_label.grid(row=0, column=0, columnspan=2)
         self.name_input.grid(row=1, column=0)
         self.send_button.grid(row=1,column=1)
@@ -111,6 +112,10 @@ class GameScreen():
             return self.change_background("correct")
     def change_background(self, current):
         self.welcome_label.destroy()
+
+        # just so you know, the color of the bg is supposed to change based on the guess' distance from the answer
+        # e.g. if your guess is further away from the answer, the bg color should be brighter and vice versa
+
         if current == "blaze":
             self.game_window.configure(bg="red")
             self.guess_label.config(bg="red")
