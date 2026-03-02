@@ -18,14 +18,21 @@ class BlazeOrFreeze:
         elif guess > self.random_number:
             return self.change_background("freeze")
         else:
-            return ""
+            return self.change_background("correct")
     def change_background(self, current):
+        self.welcome_label.destroy()
         if current == "blaze":
             self.game_window.configure(bg="red")
             self.guess_label.config(bg="red")
+            #self.welcome_label.config(bg="red")
         if current == "freeze":
             self.game_window.configure(bg="blue")
             self.guess_label.config(bg="blue")
+            #self.welcome_label.config(bg="blue")
+        if current == "correct":
+            self.game_window.configure(bg="green")
+            #self.welcome_label.config(bg="green")
+            self.guess_label.config(text="Congratulations! You guessed it!", fg="white", bg="green")
     def _create_widgets(self):
         self.game_frame = tk.Frame(self.game_window)
         self.guess_label = tk.Label(self.game_frame, text="Enter your guess (1-100):", font=self.Fonts[0], fg="black")
@@ -40,8 +47,8 @@ class BlazeOrFreeze:
         self.game_window = tk.Toplevel(self.root)
         self.game_window.title("Game Window")
         self.game_window.geometry("600x500")
-        welcome_label = tk.Label(self.game_window, text=F"Welcome {name}", font=self.Fonts[0], fg="black")
-        welcome_label.pack()
+        self.welcome_label = tk.Label(self.game_window, text=F"Welcome {name}", font=self.Fonts[0], fg="black")
+        self.welcome_label.pack()
     
     def _submit_guess(self):
         value = self.guess_input.get()
