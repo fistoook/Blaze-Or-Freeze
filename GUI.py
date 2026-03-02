@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.font import Font
 from GameLogic import HotNCold
+import random
 
 TITLE = "HOT&COLD"
 
@@ -68,7 +69,7 @@ class StartScreen(tk.Frame):
         self.play_button = tk.Button(self, command=self._play_game)
 
     def _layout_screen_widgets(self):
-        self.title_grid.pack()
+        #self.title_grid.pack()
         self.name_label.grid(row=0, column=0, columnspan=2)
         self.name_input.grid(row=1, column=0)
         self.send_button.grid(row=1,column=1)
