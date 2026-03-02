@@ -112,6 +112,10 @@ class GameScreen():
             return self.change_background("correct")
     def change_background(self, current):
         self.welcome_label.destroy()
+
+        # just so you know, the color of the bg is supposed to change based on the guess' distance from the answer
+        # e.g. if your guess is further away from the answer, the bg color should be brighter and vice versa
+
         if current == "blaze":
             self.game_window.configure(bg="red")
             self.guess_label.config(bg="red")
