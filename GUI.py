@@ -38,8 +38,8 @@ class HotNColdApp(tk.Tk):
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
 
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
 
         self.geometry(f"{int(width)}x{int(height)}+{x}+{y}") 
 
