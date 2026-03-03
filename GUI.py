@@ -1,4 +1,7 @@
 import tkinter as tk
+import random
+import csv
+import os
 from tkinter.font import Font
 from GameLogic import HotNCold
 
@@ -75,15 +78,17 @@ class StartScreen(tk.Frame):
         self.name_input_grid.pack()
 
     def _send_name(self):
-        name = self.name_input.get()
+        name = self.name_input.get().strip()
         self.name_input.delete(0, tk.END)
-        game = self.GameLogic(name, self.root, self.Fonts)
-        #if not name:
-        #    current_text = self.name_label["text"]
-        #    self.name_label.after(3000, lambda: self._config_label(self.name_label, current_text))
-        #    self.name_label.config(text="Invalid Name! enter a valid name:")
-        #else:
-        #    self.name_label.config(text=F"Welcome {name}", fg="red", font=self.Fonts[0])
+
+        if not name:
+            current_text = self.name_label["text"]
+            self.name_label.after(3000, lambda: self._config_label(self.name_label, current_text))
+            self.name_label.config(text="Invalid Name! enter a valid name:")
+            return
+
+        # launch a new game window for this player
+        GameScreen(name, self.controller, self.Fonts)
     def _config_label(self, label, text):
         label.config(text=text)
 
@@ -97,11 +102,26 @@ class GameScreen():
         self.root = root
         self.Fonts = fonts
         self.random_number = random.randint(1, 100)
+        self.guess_count = 0
         self._run_game()
+
     def _run_game(self):
         self._game_window(self.name)
         self._create_widgets()
         self._layout_widgets()
+
+    def _append_score_to_csv(self, name, score, filename="scores.csv"):
+        """Append the player's name and score to CSV for portability."""
+        if not os.path.exists(filename):
+            # Create the file with header row
+            with open(filename, "w", newline="", encoding="utf-8") as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(["Name", "Score"])
+        
+        # Append the score
+        with open(filename, "a", newline="", encoding="utf-8") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([name, score])
     def _check_guess(self, guess):
         if guess < self.random_number:
             return self.change_background("blaze")
@@ -146,10 +166,14 @@ class GameScreen():
             self.guess_input.delete(0, tk.END)
             self.guess_label.config(text="Invalid input! Enter a number 1-100.", fg="red")
             self.guess_label.after(2000, lambda: self.guess_label.config(text="Enter your guess (1-100):", fg="black"))
-        else:
-            guess = int(value)
-            self.guess_input.delete(0, tk.END)
-            self._check_guess(guess)
+            return
+
+        guess = int(value)
+        self.guess_input.delete(0, tk.END)
+        self.guess_count += 1
+        result = self._check_guess(guess)
+        if result == "correct":
+            self._append_score_to_csv(self.name, self.guess_count)
         
 class ResultScreen():
     def __init__(self, name, root, fonts):
@@ -157,6 +181,7 @@ class ResultScreen():
         self.root = root
         self.Fonts = fonts
         self.random_number = random.randint(1, 100)
+        self.guess_count = 0
         self._run_game()
     def _run_game(self):
         self._game_window(self.name)
@@ -206,8 +231,13 @@ class ResultScreen():
             self.guess_input.delete(0, tk.END)
             self.guess_label.config(text="Invalid input! Enter a number 1-100.", fg="red")
             self.guess_label.after(2000, lambda: self.guess_label.config(text="Enter your guess (1-100):", fg="black"))
-        else:
-            guess = int(value)
-            self.guess_input.delete(0, tk.END)
-            self._check_guess(guess)
+            return
+
+        guess = int(value)
+        self.guess_input.delete(0, tk.END)
+        self.guess_count += 1
+        result = self._check_guess(guess)
+        if result == "correct":
+            # optional: write to same CSV if you want result screen tracked too
+            self._append_score_to_csv(self.name, self.guess_count)
             
