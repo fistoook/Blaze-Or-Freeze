@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter.font import Font
 import os
+from utils import resource_path
 
 class customTitleBar(tk.Frame):
     def __init__(self, parent, controller, title="HOT&COLD"):
@@ -25,8 +26,7 @@ class customTitleBar(tk.Frame):
 
         # Load and keep a reference to the icon
         try:
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            icon_path = os.path.join(project_root, "assets", "images", "Hot&Cold-icon.png")
+            icon_path = resource_path(os.path.join("assets", "Images", "Hot&Cold-icon.png"))
             self.icon_image = ImageTk.PhotoImage(Image.open(icon_path).resize((20, 20)))
             icon_label = tk.Label(left_frame, image=self.icon_image, bg="#2b2b2b")
             icon_label.pack(side="left", padx=4)

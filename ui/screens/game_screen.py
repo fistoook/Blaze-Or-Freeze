@@ -2,7 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 from ui.components.guess_entry import CustomEntry
 import os
-
+from utils import resource_path
 
 class GameScreen(ctk.CTkFrame):
     """A class representing the game screen of the application."""
@@ -102,8 +102,7 @@ class GameScreen(ctk.CTkFrame):
         )
         self.result_label = ctk.CTkLabel(self, text="", font=self.Fonts["text"], fg_color="transparent")
 
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-        image_path = os.path.join(project_root, "assets", "Images", "Thermometer.png")
+        image_path = resource_path(os.path.join("assets", "Images", "Thermometer.png"))
         self.image = ctk.CTkImage(light_image=Image.open(image_path), dark_image=Image.open(image_path), size=(120, 160))
         self.image_label = ctk.CTkLabel(self, image=self.image, text="", fg_color="transparent")
 

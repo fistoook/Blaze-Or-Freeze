@@ -5,7 +5,7 @@ from ui.screens.starting_screen import StartScreen
 from ui.screens.game_screen import GameScreen
 from ui.screens.results_screen import ResultsScreen
 from ui.components.title_bar import customTitleBar
-from ui.components.level_slider import CustomLevelSlider
+from utils import resource_path
 import os
 
 class HotNColdApp(tk.Tk):
@@ -21,8 +21,7 @@ class HotNColdApp(tk.Tk):
         self.container.place(relx=0.5, rely=0.5, anchor="center")  # center and size the container
 
         # add custom theme
-        project_root = os.getcwd()
-        theme_path = os.path.join(project_root, "assets", "themes", "hot_cold_theme.json")
+        theme_path = resource_path(os.path.join("assets", "themes", "hot_cold_theme.json"))
         ctk.set_default_color_theme(theme_path)
         ctk.set_appearance_mode("system")
         

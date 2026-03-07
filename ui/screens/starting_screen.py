@@ -1,9 +1,9 @@
 import tkinter as tk
 import customtkinter as ctk
-from PIL import Image, ImageTk
+from PIL import Image
 import os
+from utils import resource_path
 from ui.components.level_slider import CustomLevelSlider
-from core import HotNCold
 
 class StartScreen(ctk.CTkFrame):
     """ A class representing the initial screen of the application """
@@ -32,15 +32,16 @@ class StartScreen(ctk.CTkFrame):
         return "StartScreen"
 
     def _create_widgets(self):
-        # method to create the widgets for the start screen
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-        image_path =  os.path.join(project_root, "assets", "Images", "Thermometer.png")
         # Create a main content frame to hold all widgets
         self.content_frame = ctk.CTkFrame(self, fg_color="transparent", corner_radius=20)
+
         # Create all the qidgets
         self.main_title = ctk.CTkLabel(self.content_frame, text="HOT&COLD", font=self.Fonts["title"])
+
+        image_path = resource_path(os.path.join("assets", "Images", "Thermometer.png"))
         self.image = ctk.CTkImage (light_image = Image.open(image_path), dark_image=Image.open(image_path), size=(150, 200))
         self.image_label = ctk.CTkLabel(self.content_frame, image=self.image, text="")
+
         self.level_slider = CustomLevelSlider(self.content_frame, command=self._on_level_change)
         self.play_button = ctk.CTkButton(self.content_frame, command=self._play_game, text="Start Game", cursor="hand2", width=220, height=60, font=self.Fonts["subtitle"])
 
