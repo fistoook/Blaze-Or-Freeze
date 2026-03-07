@@ -20,6 +20,10 @@ class StartScreen(ctk.CTkFrame):
         }
         self.Font_colors = ["red", "black", "blue"]
 
+        # default level settings
+        self.selected_level = "Easy"
+        self.selected_max_value = 10
+
         # create the GUI
         self._create_widgets()
         self._layout_widgets()
@@ -51,9 +55,11 @@ class StartScreen(ctk.CTkFrame):
 
     def _on_level_change(self, level_name, max_value):
         # Store the selected level in the controller
-        self.controller.selected_level = level_name
-        self.controller.selected_max_value = max_value
+        self.selected_level = level_name
+        self.selected_max_value = max_value
 
     def _play_game(self):
+        # Initialize the game core
+        self.controller.core._update_level(self.selected_level, self.selected_max_value)
         # initialize and show the game screen
         self.controller._show_screen("GameScreen")

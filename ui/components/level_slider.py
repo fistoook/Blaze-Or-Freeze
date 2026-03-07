@@ -62,7 +62,7 @@ class CustomLevelSlider(ctk.CTkFrame):
             button_hover_color=self._darken(level["color"]),
         )
 
-        self.level_label.configure(text_color=level["color"], text=f"{level["name"]}, 1-{level["max_value"]}")
+        self.level_label.configure(text_color=level["color"], text=f"{level['name']}, 1-{level['max_value']}")
 
         if notify and self.command:
             self.command(level["name"], level["max_value"])

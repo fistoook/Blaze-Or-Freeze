@@ -13,9 +13,8 @@ class HotNColdApp(tk.Tk):
     def __init__(self):
         super().__init__() # create the main screen
         self._style_root()  # style main screen
-        
-        # Initialize the game core
-        self.core = HotNCold()
+
+        self.core = HotNCold() # initialize the game core
 
         # create a container to hold the different screens
         self.container = ctk.CTkFrame(self, width=300, height=350, fg_color="#212121", corner_radius=20)
@@ -47,6 +46,8 @@ class HotNColdApp(tk.Tk):
     def _show_screen(self, name):
         try:
             screen = self.screens[name] # get the screen from the screen dictionary by name
+            if name == "GameScreen":
+                screen._update_prompt() # update the prompt on the game screen to reflect the current max number
             screen.tkraise() # raise the screen to the top of the stacking order to make it visible
         except KeyError:
             print(f"Error: Screen '{name}' not found.")
