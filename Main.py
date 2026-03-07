@@ -1,4 +1,5 @@
-from GUI import HotNColdApp as App
+from app import HotNColdApp
 
 if __name__ == "__main__":
-    myApp = App()
+    myApp = HotNColdApp()
+    myApp.run()
