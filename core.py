@@ -1,12 +1,6 @@
 import random
 
 class HotNCold:
-    """ 
-    A class representing the core game logic for the Hot & Cold game. 
-    It manages the game state, including the current level, the random number to guess, and the number of attempts. 
-    It provides methods to set the game level, reset the round, check the validity of a guess, and check if a guess is hot, cold, or correct. 
-    """
-
     def __init__(self, selected_level="Easy", selected_max_value=10):
         # Initialize the game state
         self.level = selected_level
@@ -29,6 +23,7 @@ class HotNCold:
         self.reset_round()
 
     def reset_round(self):
+        self.attempts = 0
         self.random_number = random.randint(1, self.max_number)
 
     def _check_guess_validity(self, guess):

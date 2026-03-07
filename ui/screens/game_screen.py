@@ -124,14 +124,8 @@ class GameScreen(ctk.CTkFrame):
     def _submit_guess(self, _event=None):
         # get the guess from the input field and validate it
         value = self.guess_input._get()
-        if not self.controller.core._check_guess_validity(value):
-            self.guess_input._error_message(f"Invalid input! Enter a number between 1 and {self.controller.core.max_number}.")
-            return
-
-        guess = int(value)
         self.guess_input._clear()
-        self.controller.core.attempts += 1
-        self._treat_guess(guess) # pass the guess for processing and UI update
+        self._treat_guess(value) # pass the guess for processing and UI update
 
     def _error_message(self, message):
         # display an error message for invalid input and reset the prompt after a short delay
@@ -143,6 +137,13 @@ class GameScreen(ctk.CTkFrame):
         self.guess_label.configure(text=f"Enter your guess (1-{self.controller.core.max_number}):")
 
     def _treat_guess(self, guess):
+        if not self.controller.core._check_guess_validity(guess):
+            self.guess_input._error_message(f"Enter a number between 1 and {self.controller.core.max_number}.")
+            return
+        
+        guess = int(guess) # convert the guess to an integer for processing
+        self.controller.core.attempts += 1
+
         # check the guess against the random number and get the result for UI update
         result = self.controller.core._check_guess(guess) 
         self._update_ui(result) # update the UI based on the result of the guess
@@ -170,3 +171,12 @@ class GameScreen(ctk.CTkFrame):
 
         # update the attempts label to reflect the new number of attempts
         self.attempts_label.configure(text=f"Attempts: {self.controller.core.attempts}")
+
+    def _new_round(self):
+        # reset the UI for a new round
+        self.guess_input.configure(state="normal")
+        self.submit_button.configure(state="normal")
+        self.result_label.configure(text="")
+        self.controller.container.configure(fg_color="#212121")
+        self.attempts_label.configure(text=f"Attempts: {self.controller.core.attempts}")
+        self._update_prompt()
